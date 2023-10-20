@@ -2,7 +2,11 @@ library(rvest)
 cars_url <- "https://en.wikipedia.org/wiki/Comma-separated_values"
 html <- read_html(cars_url)
 
-cars <- html_node (html,".wikitable")
-cars <- html_table(cars, fill=TRUE)
+data_lists <- html %>%
+  html_nodes(xpath = '//h2[contains(., "Example")]//following-sibling::pre') %>% html_text()
 
-write.csv(cars,"/Users/anggun/Desktop/school/st2195 asg/st2195_assignment_2/r_csv//cars.csv")
+data <- data_lists[1]
+
+write.table(data, file = "cars.csv", quote = FALSE, col.names = FALSE, row.names = FALSE)
+
+read.csv("cars.csv")
